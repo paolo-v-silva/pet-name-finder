@@ -51,6 +51,7 @@ export function PetNameList({
 
   const isAtStart = safeCurrentPage === 1
   const isAtEnd = safeCurrentPage === totalPages
+  const middleIndex = Math.floor(paginatedPets.length / 2)
 
   const handlePreviousPage = () => {
     setCurrentPage(Math.max(safeCurrentPage - 1, 1))
@@ -67,10 +68,12 @@ export function PetNameList({
   return (
     <div className={activePet ? 'list-container hasActivePet' : 'list-container'}>
       <ul>
-        {paginatedPets.map((pet) => (
+        {paginatedPets.map((pet, index) => (
           <li
             key={pet.id}
-            className={activePet?.id === pet.id ? 'active' : ''}
+            className={
+              activePet?.id === pet.id || (!activePet && index === middleIndex) ? 'active' : ''
+            }
             onClick={() => handlePetClick(pet)}
           >
             {pet.title}
