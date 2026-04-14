@@ -11,7 +11,7 @@ export function GenderFilter({ activeGender, setActiveGender }: Props) {
   }
 
   return (
-    <>
+    <div className="gender-filter-container">
       <h3>Choose your pet's gender</h3>
       <div className="gender-container">
         <button
@@ -33,6 +33,6 @@ export function GenderFilter({ activeGender, setActiveGender }: Props) {
           Both
         </button>
       </div>
-    </>
+    </div>
   )
 }

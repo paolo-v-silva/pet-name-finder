@@ -1,8 +1,9 @@
-:root {
+.gender-filter-container {
   padding-block: 40px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  gap: 24px;
+  gap: 12px;
 }
 
 .gender-container {
