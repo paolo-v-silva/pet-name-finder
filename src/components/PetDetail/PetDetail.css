@@ -16,12 +16,10 @@
   .title {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-weight: 600;
+    gap: 16px;
     font-size: 24px;
 
     .icon {
-      font-weight: 600;
       font-size: 30px;
     }
   }
