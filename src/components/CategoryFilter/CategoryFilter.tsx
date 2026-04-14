@@ -3,7 +3,12 @@ import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 import categories from '../../data/categories.json'
 import './CategoryFilter.css'
 
-export function CategoryFilter() {
+interface Props {
+  addFilter: (categoryId: string) => void
+  removeFilter: (categoryId: string) => void
+}
+
+export function CategoryFilter({ addFilter, removeFilter }: Props) {
   const [activeGroup, setActiveGroup] = useState<string | null>(null)
 
   const filterGroups = categories.filterGroups
@@ -14,6 +19,14 @@ export function CategoryFilter() {
 
   const handleClick = (groupId: string) => {
     setActiveGroup(activeGroup === groupId ? null : groupId)
+  }
+
+  const handleCheckboxClick = (categoryId: string, checked: boolean) => {
+    if (checked) {
+      addFilter(categoryId)
+    } else {
+      removeFilter(categoryId)
+    }
   }
 
   return (
@@ -50,7 +63,15 @@ export function CategoryFilter() {
                 const subcategories = findSubcategories(catId)
                 return (
                   <div className="filter">
-                    <input type="checkbox" name={`cat-${catId}`} className="checkbox" />
+                    <input
+                      type="checkbox"
+                      id={`cat-${catId}`}
+                      name={`cat-${catId}`}
+                      className="checkbox"
+                      onClick={(e) =>
+                        handleCheckboxClick(catId, (e.target as HTMLInputElement).checked)
+                      }
+                    />
                     <label htmlFor={`cat-${catId}`}>{subcategories?.name}</label>
                   </div>
                 )

@@ -7,22 +7,28 @@ import './PetNameList.css'
 interface Props {
   activeGender: string | null
   activePet: PetDetails | null
+  activeCategories: string[]
   setActivePet: (pet: PetDetails | null) => void
 }
 
-export function PetNameList({ activeGender, activePet, setActivePet }: Props) {
+export function PetNameList({ activeGender, activePet, activeCategories, setActivePet }: Props) {
   const pageSize = activePet ? 11 : 7
   const [page, setPage] = useState(1)
 
   const filteredPets = useMemo(() => {
-    return names.data.filter((pet) => {
+    const filteredByGender = names.data.filter((pet) => {
       if (!activeGender || activeGender === 'Both') return true
       if (activeGender === 'Male') return pet.gender.includes('M')
       if (activeGender === 'Female') return pet.gender.includes('F')
 
       return true
     })
-  }, [activeGender])
+
+    return filteredByGender.filter((pet) => {
+      if (activeCategories.length === 0) return true
+      return activeCategories.every((category) => pet.categories.includes(category))
+    })
+  }, [activeGender, activeCategories])
 
   const totalPages = Math.max(1, Math.ceil(filteredPets.length / pageSize))
   const currentPage = Math.min(page, totalPages)

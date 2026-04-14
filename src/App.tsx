@@ -15,22 +15,44 @@ export interface PetDetails {
 function App() {
   const [activeGender, setActiveGender] = useState<string>('Male')
   const [activePet, setActivePet] = useState<PetDetails | null>(null)
+  const [activeCategories, setActiveCategories] = useState<string[]>([])
+
+  const categoryFilterProps = {
+    addFilter: (categoryId: string) => {
+      if (!categoryId) return
+
+      setActiveCategories([...activeCategories, categoryId])
+      setActivePet(null)
+    },
+    removeFilter: (categoryId: string) => {
+      if (!categoryId) return
+
+      setActiveCategories(activeCategories.filter((id) => id !== categoryId))
+      setActivePet(null)
+    },
+  }
 
   const petNameListProps = {
     activeGender,
+    activeCategories,
     activePet,
     setActivePet,
   }
 
+  const handleSetActiveGender = (gender: string) => {
+    setActiveGender(gender)
+    setActivePet(null)
+  }
+
   return (
     <>
-      <GenderFilter activeGender={activeGender} setActiveGender={setActiveGender} />
-      <CategoryFilter />
+      <GenderFilter activeGender={activeGender} setActiveGender={handleSetActiveGender} />
+      <CategoryFilter {...categoryFilterProps} />
       <section className="pet-name-list-container">
         <h2>All Pets names</h2>
         <div className={activePet ? 'grid hasActivePet' : 'grid'}>
           <img src={dogForList} alt="dog" width={400} />
-          <PetNameList key={activeGender} {...petNameListProps} />
+          <PetNameList key={activeGender + activeCategories.join(',')} {...petNameListProps} />
           <PetDetails pet={activePet} />
         </div>
       </section>
