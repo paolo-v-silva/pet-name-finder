@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useReducer, useState } from 'react'
 import './App.css'
 import dogForList from './assets/dog-for-list.png'
 import { CategoryFilter, GenderFilter, LetterFilter, PetNameList } from './components'
@@ -12,40 +12,74 @@ export interface PetDetails {
   categories: string[]
 }
 
+interface FilterState {
+  activeGender: string
+  activeLetter: string
+  activeCategories: string[]
+}
+
+type FilterAction =
+  | { type: 'set-gender'; payload: string }
+  | { type: 'set-letter'; payload: string }
+  | { type: 'add-category'; payload: string }
+  | { type: 'remove-category'; payload: string }
+
+function filtersReducer(state: FilterState, action: FilterAction): FilterState {
+  switch (action.type) {
+    case 'set-gender':
+      return { ...state, activeGender: action.payload }
+    case 'set-letter':
+      return { ...state, activeLetter: action.payload }
+    case 'add-category':
+      if (state.activeCategories.includes(action.payload)) {
+        return state
+      }
+
+      return {
+        ...state,
+        activeCategories: [...state.activeCategories, action.payload],
+      }
+    case 'remove-category':
+      return {
+        ...state,
+        activeCategories: state.activeCategories.filter((id) => id !== action.payload),
+      }
+    default:
+      return state
+  }
+}
+
 function App() {
-  const [activeGender, setActiveGender] = useState<string>('Male')
-  const [activeLetter, setActiveLetter] = useState<string>('A')
+  const [filters, dispatchFilters] = useReducer(filtersReducer, {
+    activeGender: 'Male',
+    activeLetter: 'A',
+    activeCategories: [],
+  })
   const [activePet, setActivePet] = useState<PetDetails | null>(null)
-  const [activeCategories, setActiveCategories] = useState<string[]>([])
   const [currentPage, setCurrentPage] = useState<number>(1)
+
+  const handleFilterChange = (action: FilterAction) => {
+    dispatchFilters(action)
+    setActivePet(null)
+    setCurrentPage(1)
+  }
 
   const categoryFilterProps = {
     addFilter: (categoryId: string) => {
       if (!categoryId) return
-
-      setActiveCategories((currentCategories) => {
-        if (currentCategories.includes(categoryId)) return currentCategories
-        return [...currentCategories, categoryId]
-      })
-      setActivePet(null)
-      setCurrentPage(1)
+      handleFilterChange({ type: 'add-category', payload: categoryId })
     },
     removeFilter: (categoryId: string) => {
       if (!categoryId) return
-
-      setActiveCategories((currentCategories) =>
-        currentCategories.filter((id) => id !== categoryId),
-      )
-      setActivePet(null)
-      setCurrentPage(1)
+      handleFilterChange({ type: 'remove-category', payload: categoryId })
     },
-    activeCategories,
+    activeCategories: filters.activeCategories,
   }
 
   const petNameListProps = {
-    activeGender,
-    activeCategories,
-    activeLetter,
+    activeGender: filters.activeGender,
+    activeCategories: filters.activeCategories,
+    activeLetter: filters.activeLetter,
     activePet,
     currentPage,
     setCurrentPage,
@@ -53,25 +87,21 @@ function App() {
   }
 
   const handleSetActiveGender = (gender: string) => {
-    setActiveGender(gender)
-    setActivePet(null)
-    setCurrentPage(1)
+    handleFilterChange({ type: 'set-gender', payload: gender })
   }
 
   const handleSetActiveLetter = (letter: string) => {
-    setActiveLetter(letter)
-    setActivePet(null)
-    setCurrentPage(1)
+    handleFilterChange({ type: 'set-letter', payload: letter })
   }
 
   return (
     <>
-      <GenderFilter activeGender={activeGender} setActiveGender={handleSetActiveGender} />
+      <GenderFilter activeGender={filters.activeGender} setActiveGender={handleSetActiveGender} />
       <CategoryFilter {...categoryFilterProps} />
       <section className="pet-name-list-container">
         <h2>All Pets names</h2>
         <LetterFilter
-          activeLetterFilter={activeLetter}
+          activeLetterFilter={filters.activeLetter}
           setActiveLetterFilter={handleSetActiveLetter}
         />
         <div className={activePet ? 'grid hasActivePet' : 'grid'}>
