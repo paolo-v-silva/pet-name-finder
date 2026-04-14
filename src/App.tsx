@@ -30,6 +30,7 @@ function App() {
       setActiveCategories(activeCategories.filter((id) => id !== categoryId))
       setActivePet(null)
     },
+    activeCategories,
   }
 
   const petNameListProps = {

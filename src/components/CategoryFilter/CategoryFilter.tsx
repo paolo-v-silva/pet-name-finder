@@ -6,9 +6,10 @@ import './CategoryFilter.css'
 interface Props {
   addFilter: (categoryId: string) => void
   removeFilter: (categoryId: string) => void
+  activeCategories: string[]
 }
 
-export function CategoryFilter({ addFilter, removeFilter }: Props) {
+export function CategoryFilter({ addFilter, removeFilter, activeCategories }: Props) {
   const [activeGroup, setActiveGroup] = useState<string | null>(null)
 
   const filterGroups = categories.filterGroups
@@ -34,20 +35,26 @@ export function CategoryFilter({ addFilter, removeFilter }: Props) {
       <div className="category-filter-container">
         <p className="filter-text">Filters: </p>
         <div className="category-filters">
-          {filterGroups.map((group) => (
-            <div
-              key={group.id}
-              className={activeGroup === group.id ? 'filter active' : 'filter'}
-              onClick={() => handleClick(group.id)}
-            >
-              <span>{group.label}</span>
-              {activeGroup === group.id ? (
-                <FaChevronUp className="icon" />
-              ) : (
-                <FaChevronDown className="icon" />
-              )}
-            </div>
-          ))}
+          {filterGroups.map((group) => {
+            const count = group.categoryIds.reduce((acc, catId) => {
+              return acc + (activeCategories.includes(catId) ? 1 : 0)
+            }, 0)
+            return (
+              <div
+                key={group.id}
+                className={activeGroup === group.id ? 'filter active' : 'filter'}
+                onClick={() => handleClick(group.id)}
+              >
+                {count > 0 && <span className="badge">{count}</span>}
+                <span>{group.label}</span>
+                {activeGroup === group.id ? (
+                  <FaChevronUp className="icon" />
+                ) : (
+                  <FaChevronDown className="icon" />
+                )}
+              </div>
+            )
+          })}
         </div>
       </div>
 
@@ -68,6 +75,7 @@ export function CategoryFilter({ addFilter, removeFilter }: Props) {
                       id={`cat-${catId}`}
                       name={`cat-${catId}`}
                       className="checkbox"
+                      checked={activeCategories.includes(catId)}
                       onClick={(e) =>
                         handleCheckboxClick(catId, (e.target as HTMLInputElement).checked)
                       }
