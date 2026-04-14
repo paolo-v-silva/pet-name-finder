@@ -2,7 +2,7 @@
   padding-block: 40px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  place-items: center;
   gap: 12px;
 }
 
