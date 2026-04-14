@@ -14,7 +14,7 @@ function App() {
         <h2>All Pets names</h2>
         <div className="grid">
           <img src={dogForList} alt="dog" width={400} />
-          <PetNameList activeGender={activeGender} />
+          <PetNameList key={activeGender} activeGender={activeGender} />
         </div>
       </section>
     </>
