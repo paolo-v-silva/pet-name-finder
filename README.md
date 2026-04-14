@@ -67,3 +67,8 @@ The app keeps all filter state in the main application and passes it down to the
 ## Notes
 
 The pet and category data are currently loaded from local JSON files inside the `src/data` folder.
+
+## Live Demo
+
+https://pet-name-finder-yns5.vercel.app/
+
