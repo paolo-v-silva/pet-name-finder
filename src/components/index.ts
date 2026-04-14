@@ -1,4 +1,5 @@
 export * from './CategoryFilter/CategoryFilter'
 export * from './GenderFilter/GenderFilter'
+export * from './LetterFilter/LetterFilter'
 export * from './PetDetail/PetDetail'
 export * from './PetNameList/PetNameList'

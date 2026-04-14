@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import dogForList from './assets/dog-for-list.png'
-import { CategoryFilter, GenderFilter, PetNameList } from './components'
+import { CategoryFilter, GenderFilter, LetterFilter, PetNameList } from './components'
 import { PetDetails } from './components/PetDetail/PetDetail'
 
 export interface PetDetails {
@@ -51,6 +51,7 @@ function App() {
       <CategoryFilter {...categoryFilterProps} />
       <section className="pet-name-list-container">
         <h2>All Pets names</h2>
+        <LetterFilter />
         <div className={activePet ? 'grid hasActivePet' : 'grid'}>
           <img src={dogForList} alt="dog" width={400} />
           <PetNameList key={activeGender + activeCategories.join(',')} {...petNameListProps} />
