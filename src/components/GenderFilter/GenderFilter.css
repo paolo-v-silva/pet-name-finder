@@ -1,0 +1,20 @@
+.gender-container {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+
+  button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: 1px solid var(--primary);
+    background-color: transparent;
+    color: var(--primary);
+    cursor: pointer;
+
+    &.active,
+    &:hover {
+      background-color: var(--primary);
+      color: #fff;
+    }
+  }
+}
