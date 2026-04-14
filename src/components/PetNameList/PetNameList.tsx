@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 import type { PetDetails } from '../../App'
 import names from '../../data/names.json'
@@ -9,6 +9,8 @@ interface Props {
   activeLetter: string | null
   activePet: PetDetails | null
   activeCategories: string[]
+  currentPage: number
+  setCurrentPage: (page: number) => void
   setActivePet: (pet: PetDetails | null) => void
 }
 
@@ -17,10 +19,11 @@ export function PetNameList({
   activeLetter,
   activePet,
   activeCategories,
+  currentPage,
+  setCurrentPage,
   setActivePet,
 }: Props) {
   const pageSize = activePet ? 11 : 7
-  const [page, setPage] = useState(1)
 
   const filteredPets = useMemo(() => {
     const filteredByGender = names.data.filter((pet) => {
@@ -39,22 +42,22 @@ export function PetNameList({
   }, [activeGender, activeLetter, activeCategories])
 
   const totalPages = Math.max(1, Math.ceil(filteredPets.length / pageSize))
-  const currentPage = Math.min(page, totalPages)
+  const safeCurrentPage = Math.min(currentPage, totalPages)
 
   const paginatedPets = useMemo(() => {
-    const start = (currentPage - 1) * pageSize
+    const start = (safeCurrentPage - 1) * pageSize
     return filteredPets.slice(start, start + pageSize)
-  }, [currentPage, filteredPets, pageSize])
+  }, [safeCurrentPage, filteredPets, pageSize])
 
-  const isAtStart = currentPage === 1
-  const isAtEnd = currentPage === totalPages
+  const isAtStart = safeCurrentPage === 1
+  const isAtEnd = safeCurrentPage === totalPages
 
   const handlePreviousPage = () => {
-    setPage((currentPage) => Math.max(currentPage - 1, 1))
+    setCurrentPage(Math.max(safeCurrentPage - 1, 1))
   }
 
   const handleNextPage = () => {
-    setPage((currentPage) => Math.min(currentPage + 1, totalPages))
+    setCurrentPage(Math.min(safeCurrentPage + 1, totalPages))
   }
 
   const handlePetClick = (pet: PetDetails) => {
