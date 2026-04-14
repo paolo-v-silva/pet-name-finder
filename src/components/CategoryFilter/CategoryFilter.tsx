@@ -62,6 +62,7 @@ export function CategoryFilter({ addFilter, removeFilter, activeCategories }: Pr
         {filterGroups.map((group) => {
           return (
             <div
+              key={group.id}
               className={
                 activeGroup === group.id ? 'subcategory-filter active' : 'subcategory-filter'
               }
@@ -69,16 +70,14 @@ export function CategoryFilter({ addFilter, removeFilter, activeCategories }: Pr
               {group.categoryIds.map((catId) => {
                 const subcategories = findSubcategories(catId)
                 return (
-                  <div className="filter">
+                  <div key={catId} className="filter">
                     <input
                       type="checkbox"
                       id={`cat-${catId}`}
                       name={`cat-${catId}`}
                       className="checkbox"
                       checked={activeCategories.includes(catId)}
-                      onClick={(e) =>
-                        handleCheckboxClick(catId, (e.target as HTMLInputElement).checked)
-                      }
+                      onChange={(e) => handleCheckboxClick(catId, e.target.checked)}
                     />
                     <label htmlFor={`cat-${catId}`}>{subcategories?.name}</label>
                   </div>
