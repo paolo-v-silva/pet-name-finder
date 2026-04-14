@@ -3,3 +3,21 @@
 
   --primary: #e81c24;
 }
+
+.pet-name-list-container {
+  max-width: 850px;
+  width: 100%;
+  margin: 0 auto;
+  padding-block: 0px 32px;
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 16px;
+    padding-top: 12px;
+
+    img {
+      place-self: center;
+    }
+  }
+}
