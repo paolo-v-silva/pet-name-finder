@@ -1,14 +1,17 @@
 import { useMemo, useState } from 'react'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
+import type { PetDetails } from '../../App'
 import names from '../../data/names.json'
 import './PetNameList.css'
 
 interface Props {
   activeGender: string | null
+  activePet: PetDetails | null
+  setActivePet: (pet: PetDetails | null) => void
 }
 
-export function PetNameList({ activeGender }: Props) {
-  const pageSize = 7
+export function PetNameList({ activeGender, activePet, setActivePet }: Props) {
+  const pageSize = activePet ? 11 : 7
   const [page, setPage] = useState(1)
 
   const filteredPets = useMemo(() => {
@@ -27,11 +30,10 @@ export function PetNameList({ activeGender }: Props) {
   const paginatedPets = useMemo(() => {
     const start = (currentPage - 1) * pageSize
     return filteredPets.slice(start, start + pageSize)
-  }, [currentPage, filteredPets])
+  }, [currentPage, filteredPets, pageSize])
 
   const isAtStart = currentPage === 1
   const isAtEnd = currentPage === totalPages
-  const middleIndex = Math.floor(paginatedPets.length / 2)
 
   const handlePreviousPage = () => {
     setPage((currentPage) => Math.max(currentPage - 1, 1))
@@ -41,11 +43,19 @@ export function PetNameList({ activeGender }: Props) {
     setPage((currentPage) => Math.min(currentPage + 1, totalPages))
   }
 
+  const handlePetClick = (pet: PetDetails) => {
+    setActivePet(pet)
+  }
+
   return (
-    <div className="list-container">
+    <div className={activePet ? 'list-container hasActivePet' : 'list-container'}>
       <ul>
-        {paginatedPets.map((pet, index) => (
-          <li key={pet.id} className={index === middleIndex ? 'middle' : ''}>
+        {paginatedPets.map((pet) => (
+          <li
+            key={pet.id}
+            className={activePet?.id === pet.id ? 'active' : ''}
+            onClick={() => handlePetClick(pet)}
+          >
             {pet.title}
           </li>
         ))}

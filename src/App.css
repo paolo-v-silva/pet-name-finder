@@ -16,5 +16,9 @@
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 16px;
     padding-top: 12px;
+
+    &.hasActivePet img {
+      display: none;
+    }
   }
 }

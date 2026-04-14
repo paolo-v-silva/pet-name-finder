@@ -18,7 +18,8 @@
         font-size 0.2s ease,
         transform 0.2s ease;
 
-      &:hover {
+      &:hover,
+      &.active {
         color: var(--primary);
         font-size: 80px;
       }
@@ -64,6 +65,20 @@
       &.disabled {
         color: #d6d2cb;
         opacity: 0.6;
+      }
+    }
+  }
+
+  &.hasActivePet {
+    flex-direction: row-reverse;
+
+    li {
+      font-size: 35px;
+      text-align: left;
+
+      &:hover,
+      &.active {
+        font-size: 45px;
       }
     }
   }

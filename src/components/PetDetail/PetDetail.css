@@ -1,0 +1,28 @@
+.pet-details-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 24px;
+  color: #3a3533;
+  font-size: 18px;
+  line-height: 1;
+
+  .separator {
+    height: 1px;
+    background-color: #c9c5b9;
+    margin: 16px 0;
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 24px;
+
+    .icon {
+      font-weight: 600;
+      font-size: 30px;
+    }
+  }
+}
