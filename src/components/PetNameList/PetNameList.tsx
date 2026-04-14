@@ -6,12 +6,19 @@ import './PetNameList.css'
 
 interface Props {
   activeGender: string | null
+  activeLetter: string | null
   activePet: PetDetails | null
   activeCategories: string[]
   setActivePet: (pet: PetDetails | null) => void
 }
 
-export function PetNameList({ activeGender, activePet, activeCategories, setActivePet }: Props) {
+export function PetNameList({
+  activeGender,
+  activeLetter,
+  activePet,
+  activeCategories,
+  setActivePet,
+}: Props) {
   const pageSize = activePet ? 11 : 7
   const [page, setPage] = useState(1)
 
@@ -25,10 +32,11 @@ export function PetNameList({ activeGender, activePet, activeCategories, setActi
     })
 
     return filteredByGender.filter((pet) => {
+      if (activeLetter && pet.title[0].toLowerCase() !== activeLetter.toLowerCase()) return false
       if (activeCategories.length === 0) return true
       return activeCategories.every((category) => pet.categories.includes(category))
     })
-  }, [activeGender, activeCategories])
+  }, [activeGender, activeLetter, activeCategories])
 
   const totalPages = Math.max(1, Math.ceil(filteredPets.length / pageSize))
   const currentPage = Math.min(page, totalPages)
