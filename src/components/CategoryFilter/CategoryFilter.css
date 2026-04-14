@@ -113,3 +113,31 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .category-filter-container {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+  }
+
+  .filter-text {
+    text-align: left;
+  }
+
+  .category-filters {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    border-inline: 0;
+
+    .filter {
+      padding: 12px 14px;
+    }
+  }
+
+  .subcategory-filter {
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 20px 12px;
+  }
+}

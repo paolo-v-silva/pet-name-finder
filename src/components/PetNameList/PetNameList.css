@@ -1,10 +1,14 @@
 .list-container {
   display: flex;
   justify-content: space-between;
+  gap: 16px;
 
   ul {
     list-style-type: none;
     flex: 1;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
 
     li {
       color: var(--secondary);
@@ -85,6 +89,43 @@
       &.active {
         font-size: 45px;
         transform: scale(1.03) translateX(4px);
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .list-container,
+  .list-container.hasActivePet {
+    flex-direction: column;
+  }
+
+  .list-container {
+    ul li {
+      font-size: 42px;
+
+      &:hover,
+      &.active {
+        font-size: 52px;
+      }
+    }
+
+    .pagination {
+      flex-direction: row;
+      justify-content: center;
+      gap: 20px;
+    }
+  }
+
+  .list-container.hasActivePet {
+    ul li {
+      text-align: center;
+      font-size: 28px;
+
+      &:hover,
+      &.active {
+        font-size: 34px;
+        transform: scale(1.02) translateY(-1px);
       }
     }
   }

@@ -2,10 +2,12 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  min-width: 0;
   padding-top: 24px;
   color: #3a3533;
   font-size: 18px;
-  line-height: 1;
+  line-height: 1.4;
+  text-align: left;
 
   .separator {
     height: 1px;
@@ -21,6 +23,22 @@
 
     .icon {
       font-size: 30px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .pet-details-container {
+    padding-top: 8px;
+    font-size: 16px;
+
+    .title {
+      gap: 10px;
+      font-size: 20px;
+
+      .icon {
+        font-size: 24px;
+      }
     }
   }
 }

@@ -1,5 +1,5 @@
 .gender-filter-container {
-  padding-block: 0px 20px;
+  padding: 0 12px 20px;
   display: flex;
   flex-direction: column;
   place-items: center;
@@ -9,9 +9,11 @@
   display: flex;
   justify-content: center;
   gap: 16px;
+  flex-wrap: wrap;
 
   button {
     padding: 8px 16px;
+    min-width: 88px;
     border-radius: 4px;
     border: 1px solid var(--primary);
     background-color: transparent;
@@ -22,6 +24,20 @@
     &:hover {
       background-color: var(--primary);
       color: #fff;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .gender-filter-container {
+    align-items: stretch;
+  }
+
+  .gender-container {
+    gap: 10px;
+
+    button {
+      flex: 1 1 90px;
     }
   }
 }
